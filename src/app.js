@@ -11,7 +11,7 @@ dotenv.config();
 const PORT = process.env.PORT || 4000;
 
 app.use(express.json());
-app.use("/anime", router);
+app.use("/animes", router);
 app.use("/studios", R);
 app.use(errorHandler);
 

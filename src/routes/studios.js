@@ -1,3 +1,4 @@
+import { log } from "console";
 import { Router } from "express";
 import { promises as fs } from 'fs';
 import path from 'path';
@@ -37,5 +38,32 @@ router.get('/', async (req, res) => {
     }
 });
 
+
+router.post('/', async (req, res) => {
+    try {
+        const studios = await readStudiosFs();
+        const newStudio = {
+            id: studios.length + 1,
+            name: req.body.name,
+        };
+
+        studios.push(newStudio);
+        await writeStudiosFs(studios);
+        res.status(201).json(newStudio);
+
+    } catch (error) {
+        throw new Error(`Error en la creaciòn del nuevo studio ${error}, ${message}`)
+    }
+});
+
+router.get('/:id', async (req, res) => {
+    const studios = await readStudiosFs();
+    const studio = studios.findIndex(studio => studio.id === parseInt(req.params.id));
+    console-log(studio)
+    if (studio === -1) return console.log('El estudio no fue encontrado!');
+    res.json(studios[studio]);
+});
+
+router.put('')
 
 export default router;
