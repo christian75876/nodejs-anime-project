@@ -64,8 +64,8 @@ router.put("/:id", async (req, res) => {
 
     const updatedAnime = {
         ...animes[index],
-        title: req.body.title || animes[index].title,
-        genre: req.body.genre || animes[index].genre
+        title: req.body.title,
+        genre: req.body.genre 
     };
 
     animes[index] = updatedAnime;
@@ -80,7 +80,7 @@ router.delete("/:id", async (req, res) => {
     if(index === -1) return res.status(404).send('Anime not found');
     const deleteAnime = anime.splice(index, 1)
     await writeAnimesFs(anime);
-    res.send('anime deleted successfully')
+    res.send(`Anime ${deleteAnime} has been deleted`);
 });
 
 export default router;
