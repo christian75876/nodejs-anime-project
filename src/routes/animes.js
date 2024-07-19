@@ -37,13 +37,14 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    try {
-        const animes = await writeAnimesFs();
-        const newAnime = req.body;
-        animes.push(newAnime);
-        await writeAnimesFs(animes);
-        res.status(201).json(newAnime);
-    } catch (error) {
-        res.status(500).json({message: error.message});
-    }
-});
+    const animes = await readAnimesFs();
+    const newAnime = {
+        id: animes.length + 1,
+        title: req.body.title,
+        genre: req.body.genre
+    };
+
+    animes.push(newAnime);
+    await writeAnimesFs(animes);
+    res.status(201).json(newAnime);
+})
