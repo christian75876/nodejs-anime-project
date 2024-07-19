@@ -64,6 +64,28 @@ router.get('/:id', async (req, res) => {
     res.json(studios[studio]);
 });
 
-router.put('')
+router.put('/:id', async (req, res) => {
+    const studios = await readStudiosFs();
+    const studioIndex = studios.findIndex(studio => studio.id === parseInt(req.params.id));
+    if (studioIndex === -1) return console.log('El estudio no fue encontrado!');
+    
+    const updatedStudio = {
+        ...studios[studioIndex],
+        name: req.body.name
+    };
+
+    studios[studioIndex] = updatedStudio
+    await writeStudiosFs(studios);
+    res.json(updatedStudio);
+});
+
+router.delete('/:id', async (req, res) => {
+    const studios = await readStudiosFs();
+    const studioIndex = studios.findIndex(studio => studio.id === parseInt(req.params.id));
+    if (studioIndex === -1) return console.log('El estudio no fue encontrado!');
+    studios.splice(studioIndex, 1);
+    await writeStudiosFs(studios);
+    res.json(studios);
+});
 
 export default router;
